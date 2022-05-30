@@ -11,7 +11,6 @@ pub fn build(b: *std.build.Builder) void {
 
     var tests = [_]*std.build.LibExeObjStep{
         b.addTest("src/zit.zig"),
-        b.addTest("tests/tests.zig"),
     };
 
     const test_step = b.step("test", "Run library tests");
