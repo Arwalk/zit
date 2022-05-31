@@ -1,3 +1,3 @@
 # zit
 
-A data for bit-level parser.
+A parser for bit-level data.
