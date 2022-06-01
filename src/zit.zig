@@ -155,4 +155,13 @@ test "with_u8_slice" {
     try expectEqual(@intCast(u8, 0xFF), second);
     try expectEqual(@intCast(u8, 0x00), third);
     try expectEqual(@intCast(u8, 0xFF), fourth);
+
+    try zitter.move(0);
+
+    var first_u16 = try zitter.take(u16);
+    var second_u16 = try zitter.take(u16);
+
+    try expectEqual(@intCast(u16, 0xFF), first_u16);
+    try expectEqual(@intCast(u16, 0xFF), second_u16);
+
 }
