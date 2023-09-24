@@ -45,7 +45,7 @@ pub const Parser = struct {
                 for (0..numBytesToWorkWith) |i| {
                     if ((currentShift + lenToDecode) > 8) {
                         const decoded: UT(T) = 8 - @as(UT(T), @truncate(currentShift));
-                        temp += offsetedBuffer[i] & mask(decoded);
+                        temp += @truncate(offsetedBuffer[i] & mask(decoded));
                         currentShift = 0;
 
                         if ((lenToDecode - decoded > 8) and size > 8) {
@@ -55,7 +55,7 @@ pub const Parser = struct {
                         }
                         lenToDecode -= decoded;
                     } else {
-                        temp += (offsetedBuffer[i] >> @truncate(8 - lenToDecode - currentShift)) & @as(UT(T), @truncate(mask(lenToDecode)));
+                        temp += @truncate((offsetedBuffer[i] >> @truncate(8 - lenToDecode - currentShift)) & @as(UT(T), @truncate(mask(lenToDecode))));
                     }
                 }
                 return @bitCast(temp);
@@ -224,4 +224,11 @@ test "is_a" {
         defer r.deinit();
         try expectEqualSlices(u8, item.expected, r.items);
     }
+}
+
+test "casting" {
+    const first = "abc";
+    var parser = Parser.init(first[0..]);
+    var r: u16 = try parser.parse(u5);
+    _ = r;
 }
